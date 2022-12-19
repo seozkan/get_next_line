@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seozkan <seozkan@student.42kocaeli.com.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/18 23:40:54 by seozkan           #+#    #+#             */
-/*   Updated: 2022/12/19 11:57:46 by seozkan          ###   ########.fr       */
+/*   Created: 2022/12/19 12:24:41 by seozkan           #+#    #+#             */
+/*   Updated: 2022/12/19 13:08:19 by seozkan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -61,9 +61,9 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*join;
-	int		len_s1;
-	int		len_s2;
+	char *join;
+	int len_s1;
+	int len_s2;
 
 	if (!s1)
 	{
