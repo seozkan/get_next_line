@@ -12,90 +12,90 @@
 
 #include "get_next_line_bonus.h"
 
-static	char	*new_backup(char *backup)
+static	char	*new_str(char *str)
 {
 	char	*line;
 	size_t	len;
 
 	len = 0;
-	while (backup[len] && backup[len] != '\n')
+	while (str[len] && str[len] != '\n')
 		len++;
-	if (!backup[len])
+	if (!str[len])
 	{
-		free (backup);
-		backup = NULL;
+		free (str);
+		str = NULL;
 		return (NULL);
 	}
-	line = (char *) malloc((ft_strlen(backup) - len + 1) * sizeof(char));
+	line = (char *) malloc((ft_strlen(str) - len + 1) * sizeof(char));
 	if (!line)
 		return (NULL);
-	ft_strlcpy(line, backup + (len + 1), ft_strlen(backup) - len + 1);
-	free(backup);
-	backup = NULL;
+	ft_strlcpy(line, str + (len + 1), ft_strlen(str) - len + 1);
+	free(str);
+	str = NULL;
 	return (line);
 }
 
-static	char	*get_line(char *backup)
+static	char	*get_line(char *str)
 {
 	size_t	len;
 	char	*line;
 
 	len = 0;
-	if (!backup[len])
+	if (!str[len])
 		return (NULL);
-	while (backup[len] && backup[len] != '\n')
+	while (str[len] && str[len] != '\n')
 		len++;
 	line = (char *) malloc((len + 2) * sizeof(char));
 	if (!line)
 		return (NULL);
-	ft_strlcpy(line, backup, len + 2);
+	ft_strlcpy(line, str, len + 2);
 	return (line);
 }
 
-static	char	*read_file(int fd, char *backup, char **buffer)
+static	char	*read_file(int fd, char *str, char **buff)
 {
 	char	*tmp;
 	ssize_t	bytes_read;
 
 	bytes_read = 1;
-	while (!ft_strchr(backup, '\n') && bytes_read != 0)
+	while (!ft_strchr(str, '\n') && bytes_read != 0)
 	{
-		bytes_read = read(fd, *buffer, BUFFER_SIZE);
+		bytes_read = read(fd, *buff, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
-			free (backup);
-			free (*buffer);
-			*buffer = NULL;
+			free (str);
+			free (*buff);
+			*buff = NULL;
 			return (NULL);
 		}
-		(*buffer)[bytes_read] = '\0';
-		tmp = backup;
-		backup = ft_strjoin(tmp, *buffer);
+		(*buff)[bytes_read] = '\0';
+		tmp = str;
+		str = ft_strjoin(tmp, *buff);
 		free(tmp);
 		tmp = NULL;
 	}
-	free(*buffer);
-	*buffer = NULL;
-	return (backup);
+	free(*buff);
+	*buff = NULL;
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*backup[4096];
-	char		*line_return;
-	char		*buffer;
+	static char	*str[4096];
+	char		*line;
+	char		*buff;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!backup[fd])
-		backup[fd] = ft_strdup("");
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
+	if (!str[fd])
+		str[fd] = ft_strdup("");
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
 		return (NULL);
-	backup[fd] = read_file(fd, backup[fd], &buffer);
-	if (!backup[fd])
+	str[fd] = read_file(fd, str[fd], &buff);
+	if (!str[fd])
 		return (NULL);
-	line_return = get_line(backup[fd]);
-	backup[fd] = new_backup(backup[fd]);
-	return (line_return);
+	line = get_line(str[fd]);
+	str[fd] = new_str(str[fd]);
+	return (line);
 }
