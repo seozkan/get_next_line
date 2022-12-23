@@ -6,7 +6,7 @@
 /*   By: seozkan <seozkan@student.42kocaeli.com.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:24:41 by seozkan           #+#    #+#             */
-/*   Updated: 2022/12/23 18:25:57 by seozkan          ###   ########.fr       */
+/*   Updated: 2022/12/23 19:43:41 by seozkan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*p;
+	int		len;
+
+	len = ft_strlen(s1) + 1;
+	p = malloc(ft_strlen(s1) + 1);
+	if (!p)
+		return (0);
+	ft_strlcpy(p, s1, len);
+	return (p);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -59,17 +72,12 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (len_src);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*join;
 	int		len_s1;
 	int		len_s2;
 
-	if (!s1)
-	{
-		s1 = (char *)malloc(1 * sizeof(char));
-		s1[0] = '\0';
-	}
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	join = (char *)malloc(len_s1 + len_s2 + 1);
@@ -77,6 +85,5 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (0);
 	ft_strlcpy(join, s1, len_s1 + 1);
 	ft_strlcpy(join + len_s1, s2, len_s2 + 1);
-	free(s1);
 	return (join);
 }
