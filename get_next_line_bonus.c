@@ -52,30 +52,30 @@ static	char	*get_line(char *str)
 	return (line);
 }
 
-static	char	*read_file(int fd, char *str, char **buff)
+static	char	*read_file(int fd, char *str, char *buff)
 {
 	char	*tmp;
-	ssize_t	bytes_read;
+	ssize_t	rd_bytes;
 
-	bytes_read = 1;
-	while (!ft_strchr(str, '\n') && bytes_read != 0)
+	rd_bytes = 1;
+	while (!ft_strchr(str, '\n') && rd_bytes != 0)
 	{
-		bytes_read = read(fd, *buff, BUFFER_SIZE);
-		if (bytes_read == -1)
+		rd_bytes = read(fd, buff, BUFFER_SIZE);
+		if (rd_bytes == -1)
 		{
-			free (str);
-			free (*buff);
-			*buff = NULL;
+			free(buff);
+			buff = NULL;
+			free(str);
 			return (NULL);
 		}
-		(*buff)[bytes_read] = '\0';
+		buff[rd_bytes] = '\0';
 		tmp = str;
-		str = ft_strjoin(tmp, *buff);
+		str = ft_strjoin(str, buff);
 		free(tmp);
 		tmp = NULL;
 	}
-	free(*buff);
-	*buff = NULL;
+	free(buff);
+	buff = NULL;
 	return (str);
 }
 
@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
-	str[fd] = read_file(fd, str[fd], &buff);
+	str[fd] = read_file(fd, str[fd], buff);
 	if (!str[fd])
 		return (NULL);
 	line = get_line(str[fd]);
