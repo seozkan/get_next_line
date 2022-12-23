@@ -6,7 +6,7 @@
 /*   By: seozkan <seozkan@student.42kocaeli.com.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:24:41 by seozkan           #+#    #+#             */
-/*   Updated: 2022/12/19 13:08:19 by seozkan          ###   ########.fr       */
+/*   Updated: 2022/12/23 18:25:57 by seozkan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char *join;
-	int len_s1;
-	int len_s2;
+	char	*join;
+	int		len_s1;
+	int		len_s2;
 
 	if (!s1)
 	{

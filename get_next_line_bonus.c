@@ -79,8 +79,8 @@ char	*ft_read_to_left_str(int fd, char *left_str)
 
 char	*get_next_line(int fd)
 {
-	char			*line;
-	static char 	*left_str[4096];
+	char		*line;
+	static char	*left_str[4096];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
