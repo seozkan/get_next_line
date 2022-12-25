@@ -6,31 +6,37 @@
 #    By: seozkan <seozkan@student.42kocaeli.com.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/19 10:17:13 by seozkan           #+#    #+#              #
-#    Updated: 2022/12/19 12:44:04 by seozkan          ###   ########.fr        #
+#    Updated: 2022/12/25 12:54:18 by seozkan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = get_next_line.a
-
-SOURCES = get_next_line.c get_next_line_utils.c
-BONUS_SOURCES = get_next_line_bonus.c get_next_line_utils_bonus.c
-
-OBJECTS = $(SOURCES:.c=.o)
-BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)
-
 CC = gcc
-RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
+SRC = $(shell find . ! -name "get_*_bonus.c" -name "get_*.c")
+BONUS = $(shell find . -name "get_bonus*.c")
+OBJ = $(SRC:.c=.o)
+BONUS_OBJ = $(BONUS:.c=.o)
+
+
 all: $(NAME)
-$(NAME): $(OBJECTS)
-	$(AR) -r $@ $?
+
 %.o: %.c
-	$(CC) -c $(CFLAGS) $?
-bonus: $(OBJECTS) $(BONUS_OBJECTS)
-	$(AR) -r $(NAME) $?
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): $(OBJ)
+	@ar rc $(NAME) *.o
+	@echo "\n$(shell tput setaf 10) $@ built ✅ $(shell tput sgr0)\n"
+bonus: $(OBJ) $(BONUS_OBJ)
+	@ar rc $(NAME) *.o
+	@echo "\n$(shell tput setaf 10) $@ built ✅$(shell tput sgr0)\n"
 clean:
-	$(RM) $(OBJECTS) $(BONUS_OBJECTS)
+	@/bin/rm -f  *.o
+	@echo "\n$(shell tput setaf 11) object files removed 👋$(shell tput sgr0)\n"
 fclean: clean
-	$(RM) $(NAME)
+	@/bin/rm -f $(NAME)
+	@echo "\n$(shell tput setaf 11) executables removed 👋$(shell tput sgr0)\n"
+
 re: fclean all
-.PHONY: all clean bonus fclean re
+
+.PHONY: all bonus clean fclean re
