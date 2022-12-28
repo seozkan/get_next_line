@@ -12,9 +12,9 @@
 
 #include "get_next_line_bonus.h"
 
-static	char	*new_str(char *str)
+static char	*new_str(char *str)
 {
-	char	*line;
+	char	*newstr;
 	size_t	len;
 
 	len = 0;
@@ -22,37 +22,29 @@ static	char	*new_str(char *str)
 		len++;
 	if (!str[len])
 	{
-		free (str);
-		str = NULL;
+		free(str);
 		return (NULL);
 	}
-	line = (char *) malloc((ft_strlen(str) - len + 1) * sizeof(char));
-	if (!line)
-		return (NULL);
-	ft_strlcpy(line, str + (len + 1), ft_strlen(str) - len + 1);
+	newstr = ft_substr(str, len + 1, ft_strlen(str));
 	free(str);
-	str = NULL;
-	return (line);
+	return (newstr);
 }
 
-static	char	*get_line(char *str)
+static char	*new_line(char *str)
 {
+	char	*newline;
 	size_t	len;
-	char	*line;
 
 	len = 0;
 	if (!str[len])
 		return (NULL);
 	while (str[len] && str[len] != '\n')
 		len++;
-	line = (char *) malloc((len + 2) * sizeof(char));
-	if (!line)
-		return (NULL);
-	ft_strlcpy(line, str, len + 2);
-	return (line);
+	newline = ft_substr(str, 0, len);
+	return (newline);
 }
 
-static	char	*read_file(int fd, char *str, char *buff)
+static char	*read_file(int fd, char *str, char *buff)
 {
 	char	*tmp;
 	ssize_t	rd_bytes;
@@ -64,7 +56,6 @@ static	char	*read_file(int fd, char *str, char *buff)
 		if (rd_bytes == -1)
 		{
 			free(buff);
-			buff = NULL;
 			free(str);
 			return (NULL);
 		}
@@ -72,10 +63,8 @@ static	char	*read_file(int fd, char *str, char *buff)
 		tmp = str;
 		str = ft_strjoin(str, buff);
 		free(tmp);
-		tmp = NULL;
 	}
 	free(buff);
-	buff = NULL;
 	return (str);
 }
 
@@ -88,14 +77,19 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!str[fd])
-		str[fd] = ft_strdup("");
+	{
+		str[fd] = (char *)malloc(1);
+		if (!str[fd])
+			return (NULL);
+		str[fd][0] = '\0';
+	}
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
 	str[fd] = read_file(fd, str[fd], buff);
 	if (!str[fd])
 		return (NULL);
-	line = get_line(str[fd]);
+	line = new_line(str[fd]);
 	str[fd] = new_str(str[fd]);
 	return (line);
 }

@@ -24,17 +24,22 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_substr(const char *str, int start, int end)
 {
-	char	*p;
-	int		len;
+	int		length;
+	char	*sub;
+	int		i;
 
-	len = ft_strlen(s1) + 1;
-	p = malloc(ft_strlen(s1) + 1);
-	if (!p)
-		return (0);
-	ft_strlcpy(p, s1, len);
-	return (p);
+	length = end - start + 1;
+	sub = (char *)malloc(sizeof(char) * length + 1);
+	i = 0;
+	while (i < length)
+	{
+		sub[i] = str[start + i];
+		i++;
+	}
+	sub[i] = '\0';
+	return (sub);
 }
 
 char	*ft_strchr(const char *s, int c)
