@@ -91,5 +91,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = new_line(str);
 	str = new_str(str);
+	free(str);
 	return (line);
 }
